@@ -9,7 +9,9 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false
 })
 
+-----------------------------------------------------
 -- Aba AimBot
+-----------------------------------------------------
 local AimTab = Window:CreateTab("AimBot", 4483362458)
 
 local Players = game:GetService("Players")
@@ -19,9 +21,9 @@ local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
 local AimAssistEnabled = false
-local FOV_Radius = 150
-local AimSmooth = 0.20
-local MaxDistance = 500
+local FOV_Radius = 100 -- padrão atualizado
+local AimSmooth = 0.07 -- padrão atualizado
+local MaxDistance = 200 -- padrão atualizado
 local TeamCheck = false
 
 -- Desenho do FOV
@@ -109,7 +111,7 @@ AimTab:CreateSlider({
     Range = {50, 400},
     Increment = 10,
     Suffix = " px",
-    CurrentValue = FOV_Radius,
+    CurrentValue = FOV_Radius, -- padrão 100
     Flag = "FOVSlider",
     Callback = function(Value)
         FOV_Radius = Value
@@ -122,7 +124,7 @@ AimTab:CreateSlider({
     Name = "Suavidade (0.01 = muito suave, 1 = instantâneo)",
     Range = {0.01, 1},
     Increment = 0.01,
-    CurrentValue = AimSmooth,
+    CurrentValue = AimSmooth, -- padrão 0.07
     Flag = "AimSmooth",
     Callback = function(Value)
         AimSmooth = Value
@@ -135,7 +137,7 @@ AimTab:CreateSlider({
     Range = {50, 2000},
     Increment = 50,
     Suffix = " studs",
-    CurrentValue = MaxDistance,
+    CurrentValue = MaxDistance, -- padrão 200
     Flag = "MaxDistance",
     Callback = function(Value)
         MaxDistance = Value
@@ -149,5 +151,38 @@ AimTab:CreateToggle({
     Flag = "TeamCheck",
     Callback = function(Value)
         TeamCheck = Value
+    end,
+})
+
+-----------------------------------------------------
+-- Aba Visual
+-----------------------------------------------------
+local Lighting = game:GetService("Lighting")
+
+-- Guardar valores originais
+local OriginalFogEnd = Lighting.FogEnd
+local OriginalFogStart = Lighting.FogStart
+
+local VisualTab = Window:CreateTab("Visual", 4483362458)
+
+-- Função NoFog
+VisualTab:CreateToggle({
+    Name = "NoFog",
+    CurrentValue = false,
+    Flag = "NoFog",
+    Callback = function(Value)
+        if Value then
+            Lighting.FogEnd = 100000 -- remove neblina
+            Lighting.FogStart = 0
+            if Lighting:FindFirstChild("Atmosphere") then
+                Lighting.Atmosphere.Density = 0
+            end
+        else
+            Lighting.FogEnd = OriginalFogEnd
+            Lighting.FogStart = OriginalFogStart
+            if Lighting:FindFirstChild("Atmosphere") then
+                Lighting.Atmosphere.Density = 0.3
+            end
+        end
     end,
 })
