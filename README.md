@@ -21,9 +21,9 @@ local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
 local AimAssistEnabled = false
-local FOV_Radius = 100 -- padrão atualizado
-local AimSmooth = 0.07 -- padrão atualizado
-local MaxDistance = 200 -- padrão atualizado
+local FOV_Radius = 90 -- padrão atualizado
+local AimSmooth = 0.50 -- padrão atualizado
+local MaxDistance = 250 -- padrão atualizado
 local TeamCheck = false
 
 -- Desenho do FOV
@@ -111,7 +111,7 @@ AimTab:CreateSlider({
     Range = {50, 400},
     Increment = 10,
     Suffix = " px",
-    CurrentValue = FOV_Radius, -- padrão 100
+    CurrentValue = FOV_Radius, -- padrão 90
     Flag = "FOVSlider",
     Callback = function(Value)
         FOV_Radius = Value
@@ -124,7 +124,7 @@ AimTab:CreateSlider({
     Name = "Suavidade (0.01 = muito suave, 1 = instantâneo)",
     Range = {0.01, 1},
     Increment = 0.01,
-    CurrentValue = AimSmooth, -- padrão 0.07
+    CurrentValue = AimSmooth, -- padrão 0.50
     Flag = "AimSmooth",
     Callback = function(Value)
         AimSmooth = Value
@@ -137,7 +137,7 @@ AimTab:CreateSlider({
     Range = {50, 2000},
     Increment = 50,
     Suffix = " studs",
-    CurrentValue = MaxDistance, -- padrão 200
+    CurrentValue = MaxDistance, -- padrão 250
     Flag = "MaxDistance",
     Callback = function(Value)
         MaxDistance = Value
